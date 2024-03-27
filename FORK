@@ -30,33 +30,45 @@ int main(void)
  
         
         
-        if(childpid == 0)
+        if(childpid == 0) // HIJO
         {
                 int c;
-                printf("Father program:"); 
-                c=getchar();
-                printf("C %c\n",c);
-                /* Child process closes up input side of pipe */
-                close(pipe1[1]);
-
-                /* Send "string" through the output side of pipe */
-                write(pipe1[1], string, (strlen(string)+1));
+                for(;;)
+                {
+                    printf("Child program:"); 
+                    c=getchar();
+                    printf("C %c\n",c);
+                    close(pipe1[1]);
+                    nbytes = read(pipe1[0], readbuffer, sizeof(readbuffer));               
+                    printf("Received string: %s", readbuffer);
+                    int numero = atoi(readbuffer);
+                    numero = numero +3;
+                    // calculo +3
+                    sprintf(readbuffer, "%d\0 ",numero);  //%e o %d, buscar para enteros
+                    close(pipe2[0]);
+                    write(pipe2[1], readbuffer, (strlen(readbuffer)));
+                    }
                 exit(0);
         }
-        else
+        else  // PADRE (REPETIR LO MISMO QUE EN EL HIJO)
         {
                 int c;
-                printf("Parent program:"); 
-                c=getchar();
-                printf("P %c\n",c);
-                /* Parent process closes up output side of pipe */
-                close(pipe1[1]);
 
-                /* Read in a string from the pipe */
-                nbytes = read(pipe1[0], readbuffer, sizeof(readbuffer));
-                
-                printf("Received string: %s", readbuffer);
+                for(;;){
+                    printf("Parent program:"); 
+                    
+
+                    close(pipe1[0]);
+                    write(pipe1[1], string, (strlen(string)+1));
+
+
+                    close(pipe1[1]);
+                    nbytes = read(pipe1[0], readbuffer, sizeof(readbuffer));               
+                    printf("Received string: %s", readbuffer);
+                }
+                // CALCULO +7
         }
+    
 
         return(0);
 }
