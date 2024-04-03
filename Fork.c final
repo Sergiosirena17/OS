@@ -24,7 +24,6 @@ int main(void)
 
         void sigchld_handler(int sig);
         
-        printf("Main program:"); 
 
         if((childpid = fork()) == -1)
         {
@@ -39,20 +38,24 @@ int main(void)
                 for(;;)
                 {
                     printf("Child program:\n"); 
+                    sleep(1);
                     close(pipe1[1]);
                     nbytes = read(pipe1[0], readbuffer, sizeof(readbuffer));               
-                    printf("Received string: %s", readbuffer);
+                    printf("Received string: %s\n", readbuffer);
 
                     int numero = atoi(readbuffer);
                     printf("Sumando 3 al valor -> %d\n",numero);
                     numero = numero +3;
                     // calculo +3
 
+                    printf("\n\t\tVUELTA NUMERO -> %d\n",CONT);    
                      CONT = CONT + 1;
-                        if (CONT > 10) 
+                        if (CONT >= 10) 
                         { 
+                            printf("PROGRAMA FINALIZADO\n");
                             exit(0);
                         }
+                    
 
 
                     sprintf(readbuffer, "%d\0 ",numero);  //%e o %d, buscar para enteros
@@ -70,6 +73,7 @@ int main(void)
             
 
                     for(;;){
+                        sleep(1);
                         printf("Parent program: \n");
                         close(pipe1[0]);
                         write(pipe1[1], readbuffer, (strlen(readbuffer)+1));
@@ -77,9 +81,9 @@ int main(void)
 
                         close(pipe2[1]);                       
                         nbytes = read(pipe2[0], readbuffer, sizeof(readbuffer));               
-                        printf("Received string: %s", readbuffer);
+                        printf("Received string: %s\n", readbuffer);
                         int numero = atoi(readbuffer);
-                        printf("Sumando 7 al valor -> %d\n",c);
+                        printf("Sumando 7 al valor -> %d\n\n",numero);
                         numero = numero +7;
                         // CALCULO +7
                         sprintf(readbuffer, "%d\0 ",numero);  //%e o %d, buscar para enteros
