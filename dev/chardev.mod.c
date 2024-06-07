@@ -6,6 +6,11 @@
 #include <linux/vermagic.h>
 #include <linux/compiler.h>
 
+#ifdef CONFIG_UNWINDER_ORC
+#include <asm/orc_header.h>
+ORC_HEADER;
+#endif
+
 BUILD_SALT;
 BUILD_LTO_INFO;
 
@@ -27,21 +32,23 @@ MODULE_INFO(retpoline, "Y");
 #endif
 
 
+
 static const struct modversion_info ____versions[]
 __used __section("__versions") = {
-	{ 0x5c7d5920, "module_put" },
-	{ 0x3c3ff9fd, "sprintf" },
-	{ 0x6cf7f77, "try_module_get" },
+	{ 0xf3a2097a, "module_put" },
+	{ 0xb85229c, "try_module_get" },
 	{ 0xc3aaf0a9, "__put_user_1" },
-	{ 0x25f7aec2, "__register_chrdev" },
+	{ 0x2ce21352, "__register_chrdev" },
+	{ 0x122c3a7e, "_printk" },
 	{ 0x6bc3fbc0, "__unregister_chrdev" },
 	{ 0xbdfb6dbb, "__fentry__" },
-	{ 0x122c3a7e, "_printk" },
+	{ 0x167e7f9d, "__get_user_1" },
 	{ 0x5b8239ca, "__x86_return_thunk" },
-	{ 0x453e7dc, "module_layout" },
+	{ 0x87a21cb3, "__ubsan_handle_out_of_bounds" },
+	{ 0x6ab589bc, "module_layout" },
 };
 
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "32CC0D2EC1A6FBCF35EEC9B");
+MODULE_INFO(srcversion, "08D8C77694FC04BB31CA843");
