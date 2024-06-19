@@ -137,9 +137,6 @@ static ssize_t device_read(struct file *filp, /* see include/linux/fs.h */
     return bytes_read;
 }
 
-/*
- * Called when a process writes to dev file: echo "hi" > /dev/hello
- */
 static ssize_t device_write(struct file *filp, const char *buff, size_t len, loff_t * off)
 {
     int i;
@@ -147,7 +144,7 @@ static ssize_t device_write(struct file *filp, const char *buff, size_t len, lof
     for (i = 0; i < len && i < BUF_LEN - 1; i++) {
         get_user(msg[i], buff + i);
     }
-    msg[i] = '\0'; // Null-terminate the string
+    msg[i] = '\0';
     msg_Ptr = msg;
 
     return i;
